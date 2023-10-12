@@ -93,18 +93,14 @@ node('docker-terraform') {
         
         // Primer repositorio.
         def repoURL1 = 'https://github.com/cripsisxyz/chia-dbeans-infra.git'
-        withCredentials([usernamePassword(credentialsId: 'jenkins-github-cripsisxyz', usernameVariable: 'user', passwordVariable: 'pass')]) {
+        withCredentials([string(credentialsId: 'jenkins-github-cripsisxyz', variable: 'pass')]) {
             writeFile file: 'jenkins-k8s/repo-secret1.yaml',
-            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-crossplane-base', 'password': pass, 'username': user, 'url': repoURL1])
+            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'dbeans-dev', 'password': pass, 'username': user, 'cripsisxyz': repoURL1])
         }
 
         // Aplicar los secrets y configuraciones de ArgoCD en el clúster.
         sh "kubectl apply -f jenkins-k8s/repo-secret1.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-gcp-credentials-syn-k8s.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-app-common-resources.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-applicationset.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-cloud-products-infra-admin.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-app-synthetix-saas-dev.yaml"
+        sh "kubectl apply -f jenkins-k8s/argocd-app-dbeans-dev-yaml"
         // sh "kubectl apply -f jenkins-k8s/argocd-cluster-synthetix-saas-k8s.yaml"
 
         // Establecer la contraseña del administrador para ArgoCD.
