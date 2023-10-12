@@ -5,7 +5,7 @@ def SEALED_SECRETS_ID = 'dd-gke-noprod-sealed-secrets-key'
 
 // Entorno
 def PROJECT_ID = 'dbeans'
-def BUCKET_NAME = 'dd-cp-tf-state'
+def BUCKET_NAME = 'dbeans-cp-tf-state'
 def GKE_CLUSTER_NAME = 'dbeans-dev'
 def GCP_ZONE = 'europe-southwest1-a'
 
