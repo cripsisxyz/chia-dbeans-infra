@@ -1,2 +1,2 @@
-project_id       = "synthetix-laboratorio"
+project_id       = "dbeans"
 location         = "europe-southwest1-a"

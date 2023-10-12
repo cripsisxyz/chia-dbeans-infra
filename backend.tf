@@ -1,5 +1,5 @@
 terraform {
   backend "gcs" {
-    bucket  = "dd-cp-tf-state"
+    bucket  = "dbeans-cp-tf-state"
   }
 }
