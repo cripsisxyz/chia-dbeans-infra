@@ -100,7 +100,7 @@ node('docker-terraform') {
 
         // Aplicar los secrets y configuraciones de ArgoCD en el clúster.
         sh "kubectl apply -f jenkins-k8s/repo-secret1.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-app-dbeans-dev-yaml"
+        sh "kubectl apply -f jenkins-k8s/argocd-app-dbeans-dev.yaml"
         // sh "kubectl apply -f jenkins-k8s/argocd-cluster-synthetix-saas-k8s.yaml"
 
         // Establecer la contraseña del administrador para ArgoCD.
