@@ -95,7 +95,7 @@ node('docker-terraform') {
         def repoURL1 = 'https://github.com/cripsisxyz/chia-dbeans-infra.git'
         withCredentials([string(credentialsId: 'jenkins-github-cripsisxyz', variable: 'pass')]) {
             writeFile file: 'jenkins-k8s/repo-secret1.yaml',
-            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'dbeans-dev', 'password': pass, 'username': user, 'cripsisxyz': repoURL1])
+            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'dbeans-dev', 'password': pass, 'username': 'cripsisxyz', 'url': repoURL1])
         }
 
         // Aplicar los secrets y configuraciones de ArgoCD en el clúster.
