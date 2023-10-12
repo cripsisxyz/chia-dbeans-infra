@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-remote-clusters
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: synthetix-saas-dev
+        url: https://34.175.126.105
+        path: 'overlays/synthetix-saas-dev'
+        targetRevision: feature/synthetix-saas
+        namespace: synthetix-saas-dev
+  template:
+    metadata:
+      name: '{{cluster}}'
+    spec:
+      project: default
+      source:
+        path: '{{path}}'
+        repoURL: https://gitlab.opensolutions.cloud/iometrics/iometrics-k8s-deployment-datadope.git
+        targetRevision: '{{targetRevision}}'
+      destination:
+        server: '{{url}}'
+        namespace: '{{namespace}}'

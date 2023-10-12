@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker-alerting
+  namespace: synthetix-saas-dev
+  labels:
+    app: synthetix-scheduler
+    deployment: celery-worker-alerting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synthetix-scheduler
+      deployment: celery-worker-alerting
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: synthetix-scheduler
+        deployment: celery-worker-alerting
+    spec:
+      containers:
+        - name: synthetix-scheduler
+          image: synthetix-scheduler
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-memorystore
+                  key: password
+          envFrom:
+          - configMapRef:
+              name: scheduler-common-variables
+          - configMapRef:
+              name: scheduler-celery-common-variables
+          env:
+            - name: SCHEDULER_WORKER_NAME
+              value: alerting
+            - name: SCHEDULER_WORKER_QUEUES
+              value: alerting
+          resources: {}
+      restartPolicy: Always
+status: {}
