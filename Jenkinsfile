@@ -1,12 +1,12 @@
 // Definición de variables globales que serán usadas en el Jenkinsfile.
 // Vault Jenkins
-def SA_ID = 'crossplane-admon'
+def SA_ID = 'dbeans-jenkins'
 def SEALED_SECRETS_ID = 'dd-gke-noprod-sealed-secrets-key'
 
 // Entorno
-def PROJECT_ID = 'synthetix-laboratorio'
+def PROJECT_ID = 'dbeans'
 def BUCKET_NAME = 'dd-cp-tf-state'
-def GKE_CLUSTER_NAME = 'datadope-product-admin-cluster'
+def GKE_CLUSTER_NAME = 'dbeans-dev'
 def GCP_ZONE = 'europe-southwest1-a'
 
 // Inicio del pipeline.
@@ -15,7 +15,7 @@ node('docker-terraform') {
     // Etapa para obtener el código del repositorio de Git.
     stage('Checkout Code') {
         git credentialsId: 'gitlab',
-            branch: 'feature/synthetix-lab-gcp-resources',
+            branch: 'main',
             url: 'https://gitlab.opensolutions.cloud/opensolutions/cloud-products-infra-admin.git'
     }
 
