@@ -14,9 +14,9 @@ node('docker-terraform') {
 
     // Etapa para obtener el código del repositorio de Git.
     stage('Checkout Code') {
-        git credentialsId: 'gitlab',
+        git credentialsId: 'dbeans-gh-2',
             branch: 'main',
-            url: 'https://gitlab.opensolutions.cloud/opensolutions/cloud-products-infra-admin.git'
+            url: 'https://github.com/cripsisxyz/chia-dbeans-infra.git'
     }
 
     // Uso de credenciales para autenticación.
@@ -69,55 +69,55 @@ node('docker-terraform') {
         sh "kubectl apply -f jenkins-k8s/argocd-serviceAccount.yaml"
     }
 
-    // Etapa para instalar Sealed-secrets en el clúster.
-    stage('Instalar k8s Sealed-secrets') {
-        withCredentials([file(credentialsId: SEALED_SECRETS_ID, variable: 'K8S_SEALED_SECRETS_KEY')]) {
-            sh "kubectl apply -f ${K8S_SEALED_SECRETS_KEY}"
-        }
-        sh "kubectl apply -f jenkins-k8s/sealed-secrets-installer.yaml"
-    }
+    // // Etapa para instalar Sealed-secrets en el clúster.
+    // stage('Instalar k8s Sealed-secrets') {
+    //     withCredentials([file(credentialsId: SEALED_SECRETS_ID, variable: 'K8S_SEALED_SECRETS_KEY')]) {
+    //         sh "kubectl apply -f ${K8S_SEALED_SECRETS_KEY}"
+    //     }
+    //     sh "kubectl apply -f jenkins-k8s/sealed-secrets-installer.yaml"
+    // }
 
-    // Etapa para instalar ArgoCD en el clúster.
-    stage('Instalar ArgoCD') {
-        def templates = load "templates.groovy"
+    // // Etapa para instalar ArgoCD en el clúster.
+    // stage('Instalar ArgoCD') {
+    //     def templates = load "templates.groovy"
         
-        // Crear un namespace para ArgoCD.
-        writeFile file: 'jenkins-k8s/argocd-ns.yaml',
-        text: templates.renderTemplate(templates.NAMESPACE_TEMPLATE, ['name': 'argocd'])
-        sh "kubectl apply -f jenkins-k8s/argocd-ns.yaml"
-        sh "kubectl apply -n argocd -f jenkins-k8s/argocd-installer.yaml"
+    //     // Crear un namespace para ArgoCD.
+    //     writeFile file: 'jenkins-k8s/argocd-ns.yaml',
+    //     text: templates.renderTemplate(templates.NAMESPACE_TEMPLATE, ['name': 'argocd'])
+    //     sh "kubectl apply -f jenkins-k8s/argocd-ns.yaml"
+    //     sh "kubectl apply -n argocd -f jenkins-k8s/argocd-installer.yaml"
 
-        // Configurar repositorios en ArgoCD.
-        // Aquí se configuran dos repositorios diferentes para ArgoCD.
-        // Ambos requieren autenticación, por lo que se usan credenciales y se crean secrets en Kubernetes.
+    //     // Configurar repositorios en ArgoCD.
+    //     // Aquí se configuran dos repositorios diferentes para ArgoCD.
+    //     // Ambos requieren autenticación, por lo que se usan credenciales y se crean secrets en Kubernetes.
         
-        // Primer repositorio.
-        def repoURL1 = 'https://gitlab.opensolutions.cloud/opensolutions/cloud-products-infra-admin.git'
-        withCredentials([usernamePassword(credentialsId: 'gitlab', usernameVariable: 'user', passwordVariable: 'pass')]) {
-            writeFile file: 'jenkins-k8s/repo-secret1.yaml',
-            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-crossplane-base', 'password': pass, 'username': user, 'url': repoURL1])
-        }
+    //     // Primer repositorio.
+    //     def repoURL1 = 'https://gitlab.opensolutions.cloud/opensolutions/cloud-products-infra-admin.git'
+    //     withCredentials([usernamePassword(credentialsId: 'gitlab', usernameVariable: 'user', passwordVariable: 'pass')]) {
+    //         writeFile file: 'jenkins-k8s/repo-secret1.yaml',
+    //         text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-crossplane-base', 'password': pass, 'username': user, 'url': repoURL1])
+    //     }
 
-        // Segundo repositorio.
-        def repoURL2 = 'https://gitlab.opensolutions.cloud/iometrics/iometrics-saas-k8s-deployment.git'
-        withCredentials([usernamePassword(credentialsId: 'gitlab', usernameVariable: 'user', passwordVariable: 'pass')]) {
-            writeFile file: 'jenkins-k8s/repo-secret2.yaml',
-            text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-synthetix-saas', 'password': pass, 'username': user, 'url': repoURL2])
-        }
+    //     // Segundo repositorio.
+    //     def repoURL2 = 'https://gitlab.opensolutions.cloud/iometrics/iometrics-saas-k8s-deployment.git'
+    //     withCredentials([usernamePassword(credentialsId: 'gitlab', usernameVariable: 'user', passwordVariable: 'pass')]) {
+    //         writeFile file: 'jenkins-k8s/repo-secret2.yaml',
+    //         text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-synthetix-saas', 'password': pass, 'username': user, 'url': repoURL2])
+    //     }
 
-        // Aplicar los secrets y configuraciones de ArgoCD en el clúster.
-        sh "kubectl apply -f jenkins-k8s/repo-secret1.yaml"
-        sh "kubectl apply -f jenkins-k8s/repo-secret2.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-gcp-credentials-syn-k8s.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-app-common-resources.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-applicationset.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-cloud-products-infra-admin.yaml"
-        sh "kubectl apply -f jenkins-k8s/argocd-app-synthetix-saas-dev.yaml"
-        // sh "kubectl apply -f jenkins-k8s/argocd-cluster-synthetix-saas-k8s.yaml"
+    //     // Aplicar los secrets y configuraciones de ArgoCD en el clúster.
+    //     sh "kubectl apply -f jenkins-k8s/repo-secret1.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/repo-secret2.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/argocd-gcp-credentials-syn-k8s.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/argocd-app-common-resources.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/argocd-applicationset.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/argocd-cloud-products-infra-admin.yaml"
+    //     sh "kubectl apply -f jenkins-k8s/argocd-app-synthetix-saas-dev.yaml"
+    //     // sh "kubectl apply -f jenkins-k8s/argocd-cluster-synthetix-saas-k8s.yaml"
 
-        // Establecer la contraseña del administrador para ArgoCD.
-        def argocdAdminPassword = '$2a$10$oX0FNR3knYLLVo9/dwIOiuNRxEQvEhBnAdO89TxENvo/.0tL1.Mq6'
-        def kubectlCommand = templates.renderTemplate(templates.ARGOCD_SET_ADMIN_PASSWORD, ['password': argocdAdminPassword])
-        sh "${kubectlCommand}"
-    }
+    //     // Establecer la contraseña del administrador para ArgoCD.
+    //     def argocdAdminPassword = '$2a$10$oX0FNR3knYLLVo9/dwIOiuNRxEQvEhBnAdO89TxENvo/.0tL1.Mq6'
+    //     def kubectlCommand = templates.renderTemplate(templates.ARGOCD_SET_ADMIN_PASSWORD, ['password': argocdAdminPassword])
+    //     sh "${kubectlCommand}"
+    // }
 }
