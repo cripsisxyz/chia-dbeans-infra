@@ -92,7 +92,7 @@ node('docker-terraform') {
         // Ambos requieren autenticación, por lo que se usan credenciales y se crean secrets en Kubernetes.
         
         // Primer repositorio.
-        def repoURL1 = 'https://gitlab.opensolutions.cloud/opensolutions/cloud-products-infra-admin.git'
+        def repoURL1 = 'https://github.com/cripsisxyz/chia-dbeans-infra.git'
         withCredentials([usernamePassword(credentialsId: 'dbeans-gh-2', usernameVariable: 'user', passwordVariable: 'pass')]) {
             writeFile file: 'jenkins-k8s/repo-secret1.yaml',
             text: templates.renderTemplate(templates.REPOSITORY_TEMPLATE, ['name': 'repo-crossplane-base', 'password': pass, 'username': user, 'url': repoURL1])

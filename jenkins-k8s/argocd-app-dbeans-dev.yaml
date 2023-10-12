@@ -2,17 +2,17 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app: synthetix-saas-dev
-  name: synthetix-saas-dev
+    app: dbeans-dev
+  name: dbeans-dev
   namespace: argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: synthetix-saas-dev
+    namespace: dbeans-dev
   project: default
   source:
-    path: overlays/synthetix-saas-dev
-    repoURL: https://gitlab.opensolutions.cloud/iometrics/iometrics-saas-k8s-deployment.git
+    path: /
+    repoURL: https://github.com/cripsisxyz/chia-dbeans-infra.git
     targetRevision: main
   syncPolicy:
     automated:
