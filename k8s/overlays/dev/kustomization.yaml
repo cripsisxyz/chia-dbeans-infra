@@ -3,11 +3,4 @@ kind: Kustomization
 namespace: synthetix-saas-dev 
 
 resources:
-  - ../../base/common
-  - ../../base/mimir
-  - ../../base/synthetix-api
-  - ../../base/synthetix-scheduler
-  - ../../base/grafana
-  - ../../base/loki
-  - ../../base/cortex-tenant
-
+  - ../../base/dataplayer-api
