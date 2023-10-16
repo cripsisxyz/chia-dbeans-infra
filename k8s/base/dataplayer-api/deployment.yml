@@ -17,8 +17,6 @@ spec:
         app: dataplayer-api
         deployment: dataplayer-api
     spec:
-      imagePullSecrets:
-        - name: credentials-nexus-registry-datadope
       containers:
         - name: dataplayer-api
           image: dataplayer-api
@@ -26,28 +24,26 @@ spec:
           env:
             - name: TZ
               value: Europe/Madrid
+            - name: keys
+              value: generate
           ports:
             - containerPort: 8000
               name: http-cmdb
               protocol: TCP
-          # readinessProbe:
-          #   failureThreshold: 3
-          #   httpGet:
-          #     path: /
-          #     port: https-cmdb
-          #     scheme: HTTPS
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 30
-          #   successThreshold: 1
-          #   timeoutSeconds: 5
-          # livenessProbe:
-          #   failureThreshold: 3
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 10s
-          #   successThreshold: 1
-          #   tcpSocket:
-          #     port: 8443
-          #   timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - '/usr/local/bin/docker-healthcheck.sh || exit 1'
+            initialDelaySeconds: 60
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - '/usr/local/bin/docker-healthcheck.sh || exit 1'
+            initialDelaySeconds: 60
           resources:
             requests:
               cpu: 200m
