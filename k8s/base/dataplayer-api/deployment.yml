@@ -6,7 +6,6 @@ metadata:
     app: dataplayer-api
   name: dataplayer-api
 spec:
-  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: dataplayer-api
@@ -29,6 +28,8 @@ spec:
               value: Europe/Madrid
             - name: keys
               value: persistent
+            - name: service
+              value: data
           ports:
             - containerPort: 8000
               name: http-cmdb
