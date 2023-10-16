@@ -7,6 +7,6 @@ resources:
 
 images:
   - name: dataplayer-api
-    newName: nexusregistry.opensolutions.cloud/synthetix-saas/dataplayer-api
-    newTag: 0.5.0
+    newName: europe-west1-docker.pkg.dev/dbeans/dbeans/dataplayer-api
+    newTag: 1.0.0
 
