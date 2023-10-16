@@ -10388,7 +10388,7 @@ spec:
       volumes:
       - name: gcp-credentials-volume
         secret:
-          secretName: gcp-credentials-syn-k8s
+          secretName: gcp-credentials-cluster-argocd
       - emptyDir: {}
         name: plugins-home
       - emptyDir: {}

@@ -85,6 +85,7 @@ node('docker-terraform') {
         writeFile file: 'jenkins-k8s/argocd-ns.yaml',
         text: templates.renderTemplate(templates.NAMESPACE_TEMPLATE, ['name': 'argocd'])
         sh "kubectl apply -f jenkins-k8s/argocd-ns.yaml"
+        sh "kubectl apply -f jenkins-k8s/gcp-credentials-cluster-argocd.yaml"
         sh "kubectl apply -n argocd -f jenkins-k8s/argocd-installer.yaml"
 
         // Configurar repositorios en ArgoCD.
