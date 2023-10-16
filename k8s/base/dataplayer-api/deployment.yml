@@ -20,12 +20,15 @@ spec:
       containers:
         - name: dataplayer-api
           image: dataplayer-api
+          volumeMounts:
+          - name: config-volume
+            mountPath: /root/.chia_keys
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
               value: Europe/Madrid
             - name: keys
-              value: generate
+              value: persistent
           ports:
             - containerPort: 8000
               name: http-cmdb
@@ -51,3 +54,10 @@ spec:
             limits:
               cpu: 1000m
               memory: 500Gi
+      volumes:
+      - name: config-volume
+        configMap:
+          name: dataplayer-api-keyring
+          items:
+          - key: keyring.yml
+            path: keyring.yml
