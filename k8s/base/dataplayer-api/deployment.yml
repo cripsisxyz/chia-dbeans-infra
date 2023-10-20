@@ -23,9 +23,9 @@ spec:
             runAsUser: 0
             runAsGroup: 0
           volumeMounts:
-          - name: config-volume
-            mountPath: /root/.chia_keys
-            readOnly: false
+          - name: config-emptydir
+            mountPath: /root/.chia_keys 
+            readOnly: false  
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -66,3 +66,5 @@ spec:
           items:
           - key: keyring.yaml
             path: keyring.yaml
+      - name: config-emptydir
+        emptyDir: {} 
