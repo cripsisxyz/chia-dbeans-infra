@@ -19,6 +19,9 @@ spec:
       containers:
         - name: dataplayer-api
           image: dataplayer-api
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
           - name: config-volume
             mountPath: /root/.chia_keys
@@ -61,5 +64,5 @@ spec:
         configMap:
           name: dataplayer-api-keyring
           items:
-          - key: keyring.yml
-            path: keyring.yml
+          - key: keyring.yaml
+            path: keyring.yaml

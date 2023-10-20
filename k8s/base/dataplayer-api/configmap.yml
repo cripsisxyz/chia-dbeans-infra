@@ -5,7 +5,7 @@ metadata:
     app: dataplayer-api
   name: dataplayer-api-keyring
 data:
-  keyring.yml: |
+  keyring.yaml: |
     data: M+F3u7JC9xGgeCBmw4VIgp8TQOMKgO1tfxUlk7560qMFgQaLI6tx6y6+QJrmbB9S4wrfsQgRRR+Ll3hbHntIC7l0ozppKbGqUI0+THuw6kLRS+ynupuojmohF9VY9ItAhLe+dlQDjE1a9yKOk1zw/SCrSVLeqiAJWbfI846rf95jTlwbvj3lcfqVKbt7QUGBMHMuaIFCFpHcIpkPPhVeCe/ERU1OpVedXboaMKNnIjUFE+imusoVc6NIrunrA5qzgaAbcjI84qMP+fw+pS0kKbdetpS8MEYZMdU0OqAXbzqzDvzsXqHMLjCHGImasnTtFI6w+nqRPUbdgBrHS4jlK13iz6o=
     nonce: 539a965084a870ff528dd69a
     passphrase_hint: null
