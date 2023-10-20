@@ -5,10 +5,18 @@ metadata:
   name: dataplayer-api
 spec:
   ports:
-    - name: http
-      port: 8000
+    - name: http-5000
+      port: 5000
       protocol: TCP
-      targetPort: http-cmdb
+      targetPort: 5000
+    - name: http-8562
+      port: 8562
+      protocol: TCP
+      targetPort: 8562
+    - name: http-9256
+      port: 9256
+      protocol: TCP
+      targetPort: 9256
   selector:
     app: dataplayer-api
 
