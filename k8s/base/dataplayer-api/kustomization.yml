@@ -9,5 +9,5 @@ resources:
 images:
   - name: dataplayer-api
     newName: europe-west1-docker.pkg.dev/dbeans/dbeans/dataplayer-api
-    newTag: 1.0.0
+    newTag: 1.0.1
 
